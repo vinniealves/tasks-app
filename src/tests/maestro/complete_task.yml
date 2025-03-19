@@ -1,0 +1,11 @@
+appId: "com.phurshell.task-app" # Substitua pelo ID do seu app
+
+---
+
+- launchApp # Inicia o app
+- waitForAnimationToEnd
+- tapOn:
+    id: "complete_task_button_0" # Clica no botão de concluir da primeira tarefa
+
+- assertVisible:
+    id: "completed_task_icon_0" # Verifica se a tarefa foi marcada como concluída

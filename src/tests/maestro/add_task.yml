@@ -1,0 +1,18 @@
+appId: "com.phurshell.task-app"
+
+---
+
+- launchApp # Inicia o app
+
+- tapOn:
+    id: "add_task_button" # Clica no botão de adicionar tarefa
+
+- inputText:
+    id: "task-title-input"
+    text: "Comprar pão" # Digita o título da tarefa
+
+- tapOn:
+    id: "save-task-button" # Clica no botão de salvar
+
+- assertVisible:
+    text: "Comprar pão" # Verifica se a tarefa foi adicionada
