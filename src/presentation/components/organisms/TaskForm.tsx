@@ -27,7 +27,7 @@ const TaskForm = ({ task, onSubmitForm }: TaskFormProps) => {
                 value={taskTitle}
                 autoFocus={true}
             />
-            <Button title={'Concluir'} testID={'save-task-button'} onPress={handleTaskForm} />
+            <Button title={'Concluir'} testID={'save-task-button'} onPress={handleTaskForm} disabled={!taskTitle.trim()} />
         </>
     )
 }

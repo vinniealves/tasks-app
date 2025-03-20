@@ -1,4 +1,4 @@
-import { Task } from "@/src/domain/models/Task"
+import { ITask, Task } from "@/src/domain/models/Task"
 import TaskRepository from "@/src/domain/repositories/TaskRepository"
 import { ENDPOINTS } from "@/src/infrastructure/constants"
 import IHttp from "../http/http.interface"
@@ -6,7 +6,11 @@ import IHttp from "../http/http.interface"
 const TaskApiRepository = (http: IHttp): TaskRepository => ({
     getTasks: async () => {
         try {
-            return await http.get<Task[]>(ENDPOINTS.TASKS)
+            const response = await http.get<ITask[]>(ENDPOINTS.TASKS);
+            return {
+                ...response,
+                data: response.data?.map(task => new Task(task)) || [],
+            };
         } catch (error) {
             throw new Error('Erro ao buscar tarefas')
         }

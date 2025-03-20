@@ -33,6 +33,10 @@ const handleResponse = <T>(response: AxiosResponse): HttpResponse<T> => {
 
 const handleError = <T>(error: any): HttpResponse<T> => {
     // tratar os erros depois com o error.status
+    // return {
+    //     status: response.status === 200 || response.status === 201,
+    //     data: response.data
+    // };
     throw new Error(error.message || "Ocorreu um problema")
 }
 

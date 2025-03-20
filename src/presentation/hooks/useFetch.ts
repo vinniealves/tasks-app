@@ -1,5 +1,6 @@
 import { HttpResponse } from "@/src/infrastructure/http/HttpResponse"
 import { useState } from "react"
+import { Alert } from "react-native"
 
 export enum FetchTypes {
     FETCH = 'FETCH',
@@ -34,7 +35,7 @@ const useFetch = (): IFetch => {
             }
             return data
         } catch (error: any) {
-            alert(error.message)
+            Alert.alert(error.message)
             return null
         } finally {
             setLoading(false)

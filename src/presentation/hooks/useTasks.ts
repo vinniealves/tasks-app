@@ -5,7 +5,19 @@ import { Alert } from 'react-native';
 import useFetch, { FetchTypes } from './useFetch';
 import TaskRepository from '@/src/domain/repositories/TaskRepository';
 
-const useTasks = (repository: TaskRepository) => {
+interface IUseTasks {
+    loading: boolean
+    refreshing: boolean
+    submitting: boolean
+    tasks: Task[]
+    onDeleteTask: (id: number) => void
+    refreshTasks: () => void
+    getTasks: () => void
+    onCompleteTask: (task: Task) => void
+    onSubmitForm: (data: Partial<Task>) => void
+}
+
+const useTasks = (repository: TaskRepository): IUseTasks => {
     const [tasks, setTasks] = useState<Task[]>([]);
 
     const router = useRouter()
@@ -13,33 +25,57 @@ const useTasks = (repository: TaskRepository) => {
     const { loading, handleFetch, submitting, refreshing } = useFetch()
 
     const getTasks = async () => {
-        const data = await handleFetch(repository.getTasks(), FetchTypes.FETCH) || []
-        setTasks(data)
+        try {
+            const data = await handleFetch(repository.getTasks(), FetchTypes.FETCH) || []
+            setTasks(data)
+        } catch (error) {
+            Alert.alert('Erro ao buscar tarefas', 'Ocorreu um erro ao buscar as tarefas, tente novamente mais tarde')
+        }
     }
 
     const deleteTask = async (id: number) => {
-        await handleFetch(repository.deleteTask(id))
-        getTasks()
+        try {
+            await handleFetch(repository.deleteTask(id))
+            getTasks()
+        } catch (error) {
+            Alert.alert('Erro ao remover tarefa', 'Ocorreu um erro ao remover a tarefa, tente novamente mais tarde')
+        }
     }
 
     const createTask = async (task: Partial<Task>) => {
-        await handleFetch(repository.createTask(task), FetchTypes.SUBMIT)
-        router.back()
+        try {
+            await handleFetch(repository.createTask(task), FetchTypes.SUBMIT)
+            router.back()
+        } catch (error) {
+            Alert.alert('Erro ao criar tarefa', 'Ocorreu um erro ao criar a tarefa, tente novamente mais tarde')
+        }
     }
 
     const updateTask = async (id: number, task: Partial<Task>) => {
-        await handleFetch(repository.updateTask(id, task), FetchTypes.SUBMIT)
-        router.back()
+        try {
+            await handleFetch(repository.updateTask(id, task), FetchTypes.SUBMIT)
+            router.back()
+        } catch (error) {
+            Alert.alert('Erro ao atualizar tarefa', 'Ocorreu um erro ao atualizar a tarefa, tente novamente mais tarde')
+        }
     }
 
     const onCompleteTask = async (task: Task) => {
-        await handleFetch(repository.updateTask(task.id, { title: task.title, completed: true }))
-        getTasks()
+        try {
+            await handleFetch(repository.updateTask(task.id, { title: task.title, completed: true }))
+            getTasks()
+        } catch (error) {
+            Alert.alert('Erro ao completar tarefa', 'Ocorreu um erro ao completar a tarefa, tente novamente mais tarde')
+        }
     }
 
     const refreshTasks = async () => {
-        const data = await handleFetch(repository.getTasks(), FetchTypes.REFRESH) || []
-        setTasks(data)
+        try {
+            const data = await handleFetch(repository.getTasks(), FetchTypes.REFRESH) || []
+            setTasks(data)
+        } catch (error) {
+            Alert.alert('Erro ao recarregar tarefas', 'Ocorreu um erro ao recarregar as tarefas, tente novamente mais tarde')
+        }
     }
 
     const onSubmitForm = (data: Partial<Task>) => {

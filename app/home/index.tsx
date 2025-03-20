@@ -1,3 +1,4 @@
+// import getTasksUseCase from "@/src/application/useCases/getTasksUseCase";
 import HomeTemplate from "@/src/presentation/components/templates/HomeTemplate";
 import { useTasksContext } from "@/src/presentation/contexts/tasksContext";
 import { useFocusEffect, useNavigation } from "expo-router";
@@ -10,6 +11,7 @@ export default function HomeScreen() {
 
   useFocusEffect(
     useCallback(() => {
+      // getTasksUseCase.execute()
       getTasks()
     }, [navigation])
   )
